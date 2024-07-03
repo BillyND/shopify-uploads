@@ -1,0 +1,29 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "28c0432e13c824d8b5bb451812949064"
+name = "upload-files"
+handle = "upload-files"
+application_url = "https://host3000.billynd.site"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "longnd1.myshopify.com"
+include_config_on_deploy = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "write_products, read_products"
+
+[auth]
+redirect_urls = [
+  "https://host3000.billynd.site/auth/callback",
+  "https://host3000.billynd.site/auth/shopify/callback",
+  "https://host3000.billynd.site/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2024-07"
+
+[pos]
+embedded = false
