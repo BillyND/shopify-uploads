@@ -48,10 +48,10 @@ export default withTranslation(function App(props: WithTranslationProps) {
                   <FormLayout>
                     <BlockStack align="center" inlineAlign="center" gap="100">
                       <Text as="h1" variant="heading2xl">
-                        {t('everflow')}
+                        {t('Upload Images')}
                       </Text>
                       <Text as="p" variant="bodyMd">
-                        {t('the-only-app-you-need-for-selling-subscription-on-shopify-platform')}
+                        {t('Up load images into Shopify')}
                       </Text>
                     </BlockStack>
                     <Card>

@@ -1,0 +1,289 @@
+<style>
+  body {
+    overflow: hidden !important;
+  }
+
+  .upload-files-container {
+    background: white;
+    padding: 20px;
+    padding-bottom: 50px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 999999999999 !important;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    overflow-y: scroll;
+  }
+
+  .upload-files-title {
+    margin-bottom: 20px;
+  }
+
+  .upload-files-input-container {
+    border: 2px dashed #007bff;
+    padding: 20px;
+    border-radius: 10px;
+    margin: auto;
+    margin-bottom: 10px;
+    cursor: pointer;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 500px;
+  }
+
+  .upload-files-input-container.dragover {
+    background-color: #e8f4ff;
+  }
+
+  .upload-files-list {
+    margin-top: 10px;
+    text-align: left;
+    max-width: 500px;
+    margin: auto;
+  }
+
+  .upload-files-wrap-button {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    padding-top: 24px;
+  }
+
+  .upload-files-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .upload-files-button:hover {
+    background-color: #0056b3;
+  }
+
+  .upload-files-message {
+    margin-top: 10px;
+    color: red;
+  }
+
+  .upload-files-hidden {
+    display: none;
+  }
+
+  .upload-files-loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: #007bff;
+  }
+
+  .preview-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .preview-icon {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 10px;
+    border: 1px solid rgb(202, 202, 202);
+  }
+
+  .uploading-message {
+    font-size: 15px;
+    color: #007bff;
+    margin-left: 10px;
+  }
+</style>
+
+<div class="upload-files-container">
+  <h2 class="upload-files-title">Upload Images</h2>
+  <form id="upload-files-form">
+    <div class="upload-files-input-container" id="upload-files-drop-area">
+      <input max="10" type="file" accept="image/*" id="upload-files-input" multiple class="upload-files-hidden" />
+      <p>Drag & Drop images here or click to select images</p>
+    </div>
+    <div class="upload-files-list" id="upload-files-list"></div>
+    <div class="upload-files-wrap-button">
+      <button type="submit" class="upload-files-button">Upload</button>
+      <button type="button" class="upload-files-button" id="upload-files-clear-button">Clear</button>
+    </div>
+    <p id="upload-files-message" class="upload-files-message"></p>
+  </form>
+</div>
+<div id="upload-files-loading" class="upload-files-loading upload-files-hidden">Uploading...</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const uploadForm = document.getElementById('upload-files-form')
+    const fileInput = document.getElementById('upload-files-input')
+    const fileDropArea = document.getElementById('upload-files-drop-area')
+    const fileList = document.getElementById('upload-files-list')
+    const clearButton = document.getElementById('upload-files-clear-button')
+    const message = document.getElementById('upload-files-message')
+    const loadingIndicator = document.getElementById('upload-files-loading')
+    const maxFileSize = 20 * 1024 * 1024 // 20MB
+
+    /**
+     * Upload a file to the server
+     * @param file - The file to upload
+     * @param listItem - The list item element representing the file
+     */
+    async function uploadFile(file, listItem) {
+      const formData = new FormData()
+      formData.append('file', file)
+
+      try {
+        listItem.querySelector('.uploading-message').classList.remove('upload-files-hidden')
+
+        const { imageUrl } = await fetch('/apps/upload-files?action=APP_PROXY_ACTIONS.UPLOAD_FILES', {
+          method: 'POST',
+          body: formData,
+        }).then(res => res.json())
+
+        const copyButton = document.createElement('button')
+        copyButton.textContent = 'Copy URL'
+
+        copyButton.onclick = e => {
+          e.preventDefault()
+          navigator.clipboard.writeText(imageUrl)
+          alert('URL copied to clipboard!')
+        }
+
+        listItem.appendChild(copyButton)
+      } catch (error) {
+        console.error('Error uploading file:', error)
+        message.textContent = `Error uploading ${file.name}.`
+      } finally {
+        listItem.querySelector('.uploading-message').classList.add('upload-files-hidden')
+      }
+    }
+
+    /**
+     * Handle form submission to upload selected files
+     * @param event - The form submission event
+     */
+    async function handleFormSubmit(event) {
+      event.preventDefault()
+      const files = fileInput.files
+
+      if (!files || files.length === 0) {
+        message.textContent = 'Please select files.'
+        return
+      }
+
+      const uploadPromises = []
+
+      Array.from(files)
+        .slice(0, 10)
+        .forEach(file => {
+          if (file.size > maxFileSize) {
+            message.textContent = `File ${file.name} exceeds the 20MB size limit.`
+            return
+          }
+
+          const listItem = document.querySelector(`[data-filename="${file.name}"]`)
+          uploadPromises.push(uploadFile(file, listItem))
+        })
+
+      loadingIndicator.classList.remove('upload-files-hidden')
+
+      try {
+        await Promise.all(uploadPromises)
+      } finally {
+        loadingIndicator.classList.add('upload-files-hidden')
+      }
+    }
+
+    /**
+     * Handle file selection to display previews
+     */
+    function handleFileSelection() {
+      const files = fileInput.files
+      fileList.innerHTML = ''
+      Array.from(files)
+        .slice(0, 10)
+        .forEach(file => {
+          const listItem = document.createElement('div')
+          listItem.classList.add('preview-container')
+          listItem.dataset.filename = file.name
+
+          const img = document.createElement('img')
+          img.src = URL.createObjectURL(file)
+          img.classList.add('preview-icon')
+          img.onload = () => URL.revokeObjectURL(img.src)
+
+          const uploadingMessage = document.createElement('span')
+          uploadingMessage.textContent = 'Uploading...'
+          uploadingMessage.classList.add('uploading-message', 'upload-files-hidden')
+
+          listItem.appendChild(img)
+          listItem.appendChild(uploadingMessage)
+          fileList.appendChild(listItem)
+        })
+    }
+
+    /**
+     * Handle drag over event to highlight drop area
+     * @param event - The drag over event
+     */
+    function handleDragOver(event) {
+      event.preventDefault()
+      fileDropArea.classList.add('dragover')
+    }
+
+    /**
+     * Handle drag leave event to remove highlight from drop area
+     */
+    function handleDragLeave() {
+      fileDropArea.classList.remove('dragover')
+    }
+
+    /**
+     * Handle drop event to select files
+     * @param event - The drop event
+     */
+    function handleDrop(event) {
+      event.preventDefault()
+      fileDropArea.classList.remove('dragover')
+      fileInput.files = event.dataTransfer.files
+      handleFileSelection()
+    }
+
+    /**
+     * Clear selected files
+     */
+    function clearFiles() {
+      fileInput.value = ''
+      fileList.innerHTML = ''
+      message.textContent = ''
+    }
+
+    // Event listeners
+    uploadForm.addEventListener('submit', handleFormSubmit)
+    fileInput.addEventListener('change', handleFileSelection)
+    clearButton.addEventListener('click', clearFiles)
+    fileDropArea.addEventListener('dragover', handleDragOver)
+    fileDropArea.addEventListener('dragleave', handleDragLeave)
+    fileDropArea.addEventListener('drop', handleDrop)
+    fileDropArea.addEventListener('click', () => fileInput.click())
+  })
+</script>

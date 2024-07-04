@@ -1,6 +1,6 @@
 {
-  "name": "everflow",
-  "author": "EcoMate",
+  "name": "upload-images",
+  "author": "Billy",
   "private": true,
   "scripts": {
     "dev": "shopify app dev",
@@ -41,6 +41,7 @@
     "@shopify/shopify-api": "^10.0.0",
     "@shopify/shopify-app-remix": "^2.8.2",
     "@shopify/shopify-app-session-storage": "^2.1.5",
+    "axios": "^1.7.2",
     "blueimp-md5": "^2.19.0",
     "compression": "^1.7.4",
     "cors": "^2.8.5",

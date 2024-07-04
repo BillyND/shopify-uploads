@@ -17,5 +17,4 @@ package-lock.json
 shopify.app.toml
 shopify.app.local.toml
 
-extensions/everflow/assets/*
-extensions/everflow/blocks/*
+ 

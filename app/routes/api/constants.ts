@@ -1,0 +1,3 @@
+export const APP_PROXY_ACTIONS = {
+  UPLOAD_FILES: 'UPLOAD_FILES',
+}

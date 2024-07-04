@@ -13,7 +13,7 @@ include_config_on_deploy = true
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "read_customers,read_files,read_orders,read_products,read_purchase_options,read_themes,write_customers,write_files,write_products,write_purchase_options"
+scopes = "read_customers,read_files,read_orders,read_products,read_purchase_options,read_themes,write_customers,write_files,write_products,write_purchase_options,write_themes"
 
 [auth]
 redirect_urls = [
@@ -24,6 +24,15 @@ redirect_urls = [
 
 [webhooks]
 api_version = "2024-07"
+
+  [[webhooks.subscriptions]]
+  uri = "https://host3000.billynd.site/webhooks"
+  compliance_topics = [ "customers/data_request", "customers/redact", "shop/redact" ]
+
+[app_proxy]
+url = "https://host3000.billynd.site/api"
+subpath = "local-upload-files"
+prefix = "apps"
 
 [pos]
 embedded = false

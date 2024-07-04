@@ -11,7 +11,7 @@ interface IButtonHasChildElement extends Omit<ButtonProps, 'children' | 'onClick
 export default function ButtonHasChildElement(props: IButtonHasChildElement) {
   const { children, removeUnderline, ...restProps } = props
 
-  const className = removeUnderline ? 'wrap-button-everflow' : ''
+  const className = removeUnderline ? 'wrap-button' : ''
 
   return (
     <div className={className}>
