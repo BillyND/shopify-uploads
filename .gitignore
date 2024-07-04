@@ -1,17 +1,21 @@
+.env
+.env.local
+.env.rc
+.env.master
+
+.cache
+.history
+.DS_Store
+
+dist
+build
 node_modules
 
-/.cache
-/build
-/app/build
-/public/build/
-/public/_dev
-/app/public/build
-/prisma/dev.sqlite
-/prisma/dev.sqlite-journal
-database.sqlite
+yarn.lock
+package-lock.json
 
-.env
+shopify.app.toml
+shopify.app.local.toml
 
-
-
-/extensions/*/dist
+extensions/everflow/assets/*
+extensions/everflow/blocks/*

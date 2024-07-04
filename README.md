@@ -1,10 +1,4 @@
-# Shopify App Template - Remix
-
-This is a template for building a [Shopify app](https://shopify.dev/docs/apps/getting-started) using the [Remix](https://remix.run) framework.
-
-Rather than cloning this repo, you can use your preferred package manager and the Shopify CLI with [these steps](https://shopify.dev/docs/apps/getting-started/create).
-
-Visit the [`shopify.dev` documentation](https://shopify.dev/docs/api/shopify-app-remix) for more details on the Remix app package.
+# EcoMate EverFlow
 
 ## Quick start
 
@@ -16,172 +10,105 @@ Before you begin, you'll need the following:
 2. **Shopify Partner Account**: [Create an account](https://partners.shopify.com/signup) if you don't have one.
 3. **Test Store**: Set up either a [development store](https://help.shopify.com/en/partners/dashboard/development-stores#create-a-development-store) or a [Shopify Plus sandbox store](https://help.shopify.com/en/partners/dashboard/managing-stores/plus-sandbox-store) for testing your app.
 
+### Config
+
+- Copy the file **.env.example** to a new file named **.env**.
+- Edit the file **.env** and fill in all required information.
+- Run the following command in the terminal to generate a theme app extension named **everflow**. You might need to temporary remove the directory **extensions/everflow** to be able to generate a new theme app extension.
+
+```shell
+yarn generate extension
+```
+
 ### Setup
-
-If you used the CLI to create the template, you can skip this section.
-
-Using yarn:
 
 ```shell
 yarn install
 ```
 
-Using npm:
-
-```shell
-npm install
-```
-
-Using pnpm:
-
-```shell
-pnpm install
-```
-
 ### Local Development
 
-Using yarn:
+App development:
 
 ```shell
 yarn dev
 ```
 
-Using npm:
+Theme extension development:
 
 ```shell
-npm run dev
+yarn dev-ext
 ```
-
-Using pnpm:
-
-```shell
-pnpm run dev
-```
-
-Press P to open the URL to your app. Once you click install, you can start development.
 
 Local development is powered by [the Shopify CLI](https://shopify.dev/docs/apps/tools/cli). It logs into your partners account, connects to an app, provides environment variables, updates remote config, creates a tunnel and provides commands to generate extensions.
 
-### Authenticating and querying data
-
-To authenticate and query data you can use the `shopify` const that is exported from `/app/shopify.server.js`:
-
-```js
-export async function loader({ request }) {
-  const { admin } = await shopify.authenticate.admin(request);
-
-  const response = await admin.graphql(`
-    {
-      products(first: 25) {
-        nodes {
-          title
-          description
-        }
-      }
-    }`);
-
-  const {
-    data: {
-      products: { nodes },
-    },
-  } = await response.json();
-
-  return json(nodes);
-}
-```
-
-This template comes preconfigured with examples of:
-
-1. Setting up your Shopify app in [/app/shopify.server.ts](https://github.com/Shopify/shopify-app-template-remix/blob/main/app/shopify.server.ts)
-2. Querying data using Graphql. Please see: [/app/routes/app.\_index.tsx](https://github.com/Shopify/shopify-app-template-remix/blob/main/app/routes/app._index.tsx).
-3. Responding to mandatory webhooks in [/app/routes/webhooks.tsx](https://github.com/Shopify/shopify-app-template-remix/blob/main/app/routes/webhooks.tsx)
-
-Please read the [documentation for @shopify/shopify-app-remix](https://www.npmjs.com/package/@shopify/shopify-app-remix#authenticating-admin-requests) to understand what other API's are available.
-
 ## Deployment
 
-### Application Storage
+### Config
 
-This template uses [Prisma](https://www.prisma.io/) to store session data, by default using an [SQLite](https://www.sqlite.org/index.html) database.
-The database is defined as a Prisma schema in `prisma/schema.prisma`.
+- Copy the file **.env.example** to a new file named **.env**.
+- Edit the file **.env** and fill in all required information.
+- Run the following command in the terminal to generate a theme app extension named **everflow**. You might need to temporary remove the directory **extensions/everflow** to be able to generate a new theme app extension.
 
-This use of SQLite works in production if your app runs as a single instance.
-The database that works best for you depends on the data your app needs and how it is queried.
-You can run your database of choice on a server yourself or host it with a SaaS company.
-Here’s a short list of databases providers that provide a free tier to get started:
+```shell
+yarn generate extension
+```
 
-| Database   | Type             | Hosters                                                                                                                                                                                                                               |
-| ---------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| MySQL      | SQL              | [Digital Ocean](https://www.digitalocean.com/try/managed-databases-mysql), [Planet Scale](https://planetscale.com/), [Amazon Aurora](https://aws.amazon.com/rds/aurora/), [Google Cloud SQL](https://cloud.google.com/sql/docs/mysql) |
-| PostgreSQL | SQL              | [Digital Ocean](https://www.digitalocean.com/try/managed-databases-postgresql), [Amazon Aurora](https://aws.amazon.com/rds/aurora/), [Google Cloud SQL](https://cloud.google.com/sql/docs/postgres)                                   |
-| Redis      | Key-value        | [Digital Ocean](https://www.digitalocean.com/try/managed-databases-redis), [Amazon MemoryDB](https://aws.amazon.com/memorydb/)                                                                                                        |
-| MongoDB    | NoSQL / Document | [Digital Ocean](https://www.digitalocean.com/try/managed-databases-mongodb), [MongoDB Atlas](https://www.mongodb.com/atlas/database)                                                                                                  |
-
-To use one of these, you can use a different [datasource provider](https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#datasource) in your `schema.prisma` file, or a different [SessionStorage adapter package](https://github.com/Shopify/shopify-api-js/blob/main/packages/shopify-api/docs/guides/session-storage.md).
+You can skip these steps above if you have already done them before.
 
 ### Build
 
-Remix handles building the app for you, by running the command below with the package manager of your choice:
-
-Using yarn:
+Build a local app:
 
 ```shell
 yarn build
 ```
 
-Using npm:
+Build the RC app:
 
 ```shell
-npm run build
+yarn build-rc
 ```
 
-Using pnpm:
+Build the WIP app:
 
 ```shell
-pnpm run build
+yarn build-wip
 ```
 
-## Hosting
+Build the live app:
 
-When you're ready to set up your app in production, you can follow [our deployment documentation](https://shopify.dev/docs/apps/deployment/web) to host your app on a cloud provider like [Heroku](https://www.heroku.com/) or [Fly.io](https://fly.io/).
+```shell
+yarn build-master
+```
 
-When you reach the step for [setting up environment variables](https://shopify.dev/docs/apps/deployment/web#set-env-vars), you also need to set the variable `NODE_ENV=production`.
+### Deploy
 
-### Hosting on Vercel
+Deploy a local app:
 
-Using the Vercel Preset is recommended when hosting your Shopify Remix app on Vercel. You'll also want to ensure imports that would normally come from `@remix-run/node` are imported from `@vercel/remix` instead. Learn more about hosting Remix apps on Vercel [here](https://vercel.com/docs/frameworks/remix).
+```shell
+yarn deploy
+```
 
-```diff
-// vite.config.ts
-import { vitePlugin as remix } from "@remix-run/dev";
-import { defineConfig, type UserConfig } from "vite";
-import tsconfigPaths from "vite-tsconfig-paths";
-+ import { vercelPreset } from '@vercel/remix/vite';
+Deploy the RC app:
 
-installGlobals();
+```shell
+yarn deploy-rc
+```
 
-export default defineConfig({
-  plugins: [
-    remix({
-      ignoredRouteFiles: ["**/.*"],
-+     presets: [vercelPreset()],
-    }),
-    tsconfigPaths(),
-  ],
-});
+Deploy the WIP app:
+
+```shell
+yarn deploy-wip
+```
+
+Deploy the live app:
+
+```shell
+yarn deploy-master
 ```
 
 ## Gotchas / Troubleshooting
-
-### Database tables don't exist
-
-If you get this error:
-
-```
-The table `main.Session` does not exist in the current database.
-```
-
-You need to create the database for Prisma. Run the `setup` script in `package.json` using your preferred package manager.
 
 ### Navigating/redirecting breaks an embedded app
 
@@ -277,37 +204,6 @@ By default the CLI uses a cloudflare tunnel. Unfortunately it cloudflare tunnels
 
 This will not affect production, since tunnels are only for local development.
 
-### Using MongoDB and Prisma
-
-By default this template uses SQLlite as the database. It is recommended to move to a persisted database for production. If you choose to use MongoDB, you will need to make some modifications to the schema and prisma configuration. For more information please see the [Prisma MongoDB documentation](https://www.prisma.io/docs/orm/overview/databases/mongodb).
-
-Alternatively  you can use a MongDB database directly with the [MongoDB session storage adapter](https://github.com/Shopify/shopify-app-js/tree/main/packages/apps/session-storage/shopify-app-session-storage-mongodb).
-
-#### Mapping the id field
-In MongoDB, an ID must be a single field that defines an @id attribute and a @map("_id") attribute.
-The prisma adapter expects the ID field to be the ID of the session, and not the _id field of the document.
-
-To make this work you can add a new field to the schema that maps the _id field to the id field. For more information see the [Prisma documentation](https://www.prisma.io/docs/orm/prisma-schema/data-model/models#defining-an-id-field)
-
-```prisma
-model Session {
-  session_id  String    @id @default(auto()) @map("_id") @db.ObjectId
-  id          String    @unique
-...
-}
-```
-
-####  Error: The "mongodb" provider is not supported with this command
-MongoDB does not support the [prisma migrate](https://www.prisma.io/docs/orm/prisma-migrate/understanding-prisma-migrate/overview) command. Instead, you can use the [prisma db push](https://www.prisma.io/docs/orm/reference/prisma-cli-reference#db-push) command and update the `shopify.web.toml` file with the following commands. If you are using MongoDB please see the [Prisma documentation](https://www.prisma.io/docs/orm/overview/databases/mongodb) for more information. 
-```toml
-[commands]
-predev = "npx prisma generate && npx prisma db push"
-dev = "npm exec remix vite:dev"
-```
-
-#### Prisma needs to perform transactions, which requires your mongodb server to be run as a replica set
-See the [Prisma documentation](https://www.prisma.io/docs/getting-started/setup-prisma/start-from-scratch/mongodb/connect-your-database-node-mongodb) for connecting to a MongoDB database.
-
 ## Benefits
 
 Shopify apps are built on a variety of Shopify tools to create a great merchant experience.
@@ -344,4 +240,3 @@ This template uses [Remix](https://remix.run). The following Shopify tools are a
 - [App extensions](https://shopify.dev/docs/apps/app-extensions/list)
 - [Shopify Functions](https://shopify.dev/docs/api/functions)
 - [Getting started with internationalizing your app](https://shopify.dev/docs/apps/best-practices/internationalization/getting-started)
-# shopify-uploads

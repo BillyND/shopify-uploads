@@ -1,0 +1,11 @@
+.wrap-button-everflow button {
+  text-decoration: none !important;
+}
+
+.wrap-button-everflow button:hover {
+  text-decoration: none !important;
+}
+
+.wrap-button-everflow span {
+  line-height: 1;
+}

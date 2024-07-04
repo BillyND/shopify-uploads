@@ -1,0 +1,34 @@
+.sticky-top-16 {
+  position: sticky;
+  top: 16px;
+}
+
+.video-onboarding {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: '16/9';
+  box-shadow:
+    rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+  border-radius: 8px;
+}
+
+.heading-selling-plan:hover {
+  background-color: var(--p-color-bg-surface-hover);
+  border-radius: 8px;
+}
+
+.heading-selling-plan:hover .icon-delete-selling-plan {
+  visibility: visible;
+}
+
+.icon-delete-selling-plan {
+  visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}

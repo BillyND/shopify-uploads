@@ -2,11 +2,16 @@
 root = true
 
 [*]
-charset = utf-8
+tab_width = 2
 indent_size = 2
+charset = utf-8
+end_of_line = lf
+quote_type = single
 indent_style = space
+max_line_length = 120
 insert_final_newline = true
 trim_trailing_whitespace = true
+dotnet_style_operator_placement_when_wrapping = beginning_of_line
 
 # Markdown syntax specifies that trailing whitespaces can be meaningful,
 # so let’s not trim those. e.g. 2 trailing spaces = linebreak (<br />)
