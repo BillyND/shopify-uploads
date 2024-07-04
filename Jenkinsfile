@@ -73,7 +73,7 @@ pipeline {
         //         }
         //     }
         // }
-        stage('Deploy EverFlow') {
+        stage('Deploy Upload-Images') {
             steps {
                 script {
                     if (BRANCH == 'origin/master'){

@@ -159,6 +159,8 @@
           body: formData,
         }).then(res => res.json())
 
+        console.log('===>imageUrl', imageUrl)
+
         const copyButton = document.createElement('button')
         copyButton.textContent = 'Copy URL'
 

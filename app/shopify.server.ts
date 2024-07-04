@@ -22,17 +22,6 @@ const shopify = shopifyApp({
   restResources,
   webhooks: {
     APP_UNINSTALLED: webhookHandler,
-    CUSTOMERS_DATA_REQUEST: webhookHandler,
-    CUSTOMERS_REDACT: webhookHandler,
-    CUSTOMERS_UPDATE: webhookHandler,
-    SHOP_REDACT: webhookHandler,
-    SHOP_UPDATE: webhookHandler,
-    ORDERS_DELETE: webhookHandler,
-    ORDERS_UPDATED: webhookHandler,
-    ORDERS_CANCELLED: webhookHandler,
-    PRODUCTS_DELETE: webhookHandler,
-    SUBSCRIPTION_CONTRACTS_CREATE: webhookHandler,
-    SUBSCRIPTION_CONTRACTS_UPDATE: webhookHandler,
   },
   hooks: {
     afterAuth: async ({ admin, session }) => {
