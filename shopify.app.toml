@@ -31,7 +31,7 @@ api_version = "2024-07"
 
 [app_proxy]
 url = "https://host3000.billynd.site/api"
-subpath = "local-upload-files"
+subpath = "local-upload-images"
 prefix = "apps"
 
 [pos]

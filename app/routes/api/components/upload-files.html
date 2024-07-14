@@ -195,7 +195,7 @@
       const uploadPromises = []
 
       Array.from(files)
-        .slice(0, 10)
+        .slice(0, 30)
         .forEach(file => {
           if (file.size > maxFileSize) {
             message.textContent = `File ${file.name} exceeds the 20MB size limit.`
