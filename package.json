@@ -22,8 +22,7 @@
     "lint:fix": "npm run lint -- --fix",
     "prettier": "prettier --cache --cache-location ./node_modules/.cache/prettier .",
     "prettier:fix": "npm run prettier -- --write",
-    "format": "npm run prettier:fix && npm run lint:fix",
-    "prepare": "husky install"
+    "format": "npm run prettier:fix && npm run lint:fix"
   },
   "type": "module",
   "engines": {
@@ -83,7 +82,6 @@
     "dotenv-cli": "^7.4.2",
     "eslint": "^8.42.0",
     "eslint-config-prettier": "^9.1.0",
-    "husky": "^9.0.11",
     "jose": "^5.3.0",
     "jsdom": "^24.0.0",
     "lint-staged": "^15.2.2",
